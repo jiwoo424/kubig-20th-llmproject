@@ -12,12 +12,11 @@ from langchain_core.messages import HumanMessage
 
 	
 st.title("전세사기 방지를 위한 부동산계약서 검토-분석 서비스")
-st.write("""" 명품인재 x 업스테이지 LLM Innovators Challenge """,unsafe_allow_html=True)
+st.write(""" 명품인재 x 업스테이지 LLM Innovators Challenge """,unsafe_allow_html=True)
 st.write(""" <p> team <b style="color:red">체크메이트</b></p>""",unsafe_allow_html=True)
-
-
-st.subheader('이미지 파일 업로드')
-file = st.file_uploader('이미지를 업로드 하세요', type=['jpg', 'jpeg', 'png'])
+st.write("________________________________")
+st.subheader('검토-분석이 필요한 계약서는?')
+file = st.file_uploader('계약서를 업로드 하세요', type=['jpg', 'jpeg', 'png'])
 
 def save_uploaded_file(directory, file):
     if not os.path.exists(directory):
