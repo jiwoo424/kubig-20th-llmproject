@@ -10,7 +10,7 @@ import re
 from langchain_upstage import ChatUpstage
 from langchain_core.messages import HumanMessage
 
-from def import extract_clauses_with_order, clean_text, classify_remaining_text, process_ocr_text
+from OCR import extract_clauses_with_order, clean_text, classify_remaining_text, process_ocr_text
 
 
 	
