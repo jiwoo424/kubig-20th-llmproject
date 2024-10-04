@@ -51,7 +51,6 @@ if file is not None :
         st.image(img)
         
         
-
 def extract_text_from_document(api_key, filename):
     url = "https://api.upstage.ai/v1/document-ai/ocr"
     headers = {"Authorization": f"Bearer {api_key}"}
