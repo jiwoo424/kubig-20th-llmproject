@@ -25,18 +25,14 @@ def save_uploaded_file(directory, file):
         f.write(file.getbuffer())
 
 if file is not None:
-    # 현재 시간으로 파일 이름 지정
     current_time = datetime.now().isoformat().replace(':', '_')
     file.name = current_time + '.jpg'
-    
-    # 파일 저장
+
     save_uploaded_file('tmp', file)
 
-    # 이미지 열기
     img = Image.open(file)
     st.image(img)
     
-    # 이미지 파일 경로 생성
     file_path = os.path.join('tmp', file.name)
 
     # OCR API 호출
@@ -47,7 +43,8 @@ if file is not None:
         response = requests.post(url, headers=headers, files=files)
         return response.json()
 
-    api_key = "up_HMlfm5h1T5Ea4zYWrtzZ1zYRfuzDi"
+    
+    api_key = st.secrets['API_KEY']
     ocr_result = extract_text_from_document(api_key, file_path)
 
     # OCR 텍스트 추출
@@ -59,3 +56,4 @@ if file is not None:
     ocr_text = extract_ocr_text(ocr_result)
 
     st.write(ocr_text)
+    
