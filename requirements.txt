@@ -5,7 +5,7 @@ datetime
 os
 PIL
 requests
-flask
+flask==2.2.2
 re
 langchain_upstage
 langchain_core
