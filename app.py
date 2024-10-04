@@ -10,6 +10,9 @@ import re
 from langchain_upstage import ChatUpstage
 from langchain_core.messages import HumanMessage
 
+from def import extract_clauses_with_order, clean_text, classify_remaining_text, process_ocr_text
+
+
 	
 st.title("전세사기 방지를 위한 부동산계약서 검토-분석 서비스")
 st.write(""" 명품인재 x 업스테이지 LLM Innovators Challenge """,unsafe_allow_html=True)
@@ -54,6 +57,8 @@ if file is not None:
 
     # OCR 결과에서 텍스트 추출
     ocr_text = extract_ocr_text(ocr_result)
-
-    st.write(ocr_text)
+    final_classified_text = process_ocr_text(ocr_text)
+    
+    
+    st.write(final_classified_text)
     
