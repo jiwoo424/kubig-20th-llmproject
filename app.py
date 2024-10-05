@@ -61,4 +61,5 @@ if file is not None:
     # 최종적으로 조항을 분리하고 결과를 딕셔너리로 저장
     final_classified_text = process_ocr_text(ocr_text)
 
-    print(final_classified_text)
+    st,write(final_classified_text)
+    
