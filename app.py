@@ -11,6 +11,7 @@ from langchain_upstage import ChatUpstage
 from langchain_core.messages import HumanMessage, SystemMessage
 
 from OCR import extract_clauses_with_order, clean_text, classify_remaining_text, process_ocr_text
+from CLAUSE import extract_legal_terms, legal_explanations, generate_clause_explanation, terms_df
 
 
 	
@@ -60,6 +61,26 @@ if file is not None:
     
     # 최종적으로 조항을 분리하고 결과를 딕셔너리로 저장
     final_classified_text = process_ocr_text(ocr_text)
-
-    st.write(final_classified_text)
     
+    # final_classified_text에서 'type'이 '조항'인 항목들의 'content'를 추출하여 risky_clause 리스트에 저장
+    clauses = []
+
+    for key, item in final_classified_text.items():
+        if item['type'] == '조항':
+            clauses.append(item['content'])
+
+
+        
+        # 조항별로 처리 및 출력
+    for i, clause in enumerate(clauses):
+        st.subheader(f"조항 {i+1}:")
+        st.write(clause['content'])
+
+        # 조항에서 법률 용어 추출 및 설명 가져오기
+        legal_terms = extract_legal_terms(clause['content'], terms_df)
+        term_explanations = legal_explanations(legal_terms, terms_df)
+        
+        # LangChain을 사용하여 조항 설명 생성
+        explanation = generate_clause_explanation(clause['content'], term_explanations)
+        st.write("설명:", explanation)
+        
