@@ -10,7 +10,7 @@ langchain-upstage==0.3.0
 langchain-core==0.3.0
 langchain
 # Assuming upstage-langchain is installed from GitHub, otherwise remove this line
-git+https://github.com/username/upstage-langchain.git
+git+https://github.com/jiwoo424/kubig-20th-llmproject.git
 pydantic>=2.7.4,<3.0.0
 faiss-cpu
 scikit-learn
