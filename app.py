@@ -8,9 +8,15 @@ import requests
 from flask import Flask, request, jsonify
 import re
 from langchain_upstage import ChatUpstage
-from langchain_core.messages import HumanMessage
+from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain.chains import SimpleSequentialChain
+from langchain.prompts import PromptTemplate
 
 from OCR import extract_clauses_with_order, clean_text, classify_remaining_text, process_ocr_text
+from CLAUSE import extract_legal_terms, legal_explanations, generate_clause_explanation
+
 
 
 	
@@ -57,8 +63,7 @@ if file is not None:
 
     # OCR 결과에서 텍스트 추출
     ocr_text = extract_ocr_text(ocr_result)
+    
+    # 최종적으로 조항을 분리하고 결과를 딕셔너리로 저장
     final_classified_text = process_ocr_text(ocr_text)
-    
-    
-    st.write(final_classified_text)
     
