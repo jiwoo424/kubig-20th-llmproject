@@ -9,4 +9,5 @@ werkzeug==2.2.3
 langchain-upstage
 langchain-core
 langchain
+langchain.verbose = False
 pydantic==1.*
