@@ -9,6 +9,8 @@ from flask import Flask, request, jsonify
 import re
 from langchain_upstage import ChatUpstage
 from langchain_core.messages import HumanMessage, SystemMessage
+import langchain
+langchain.verbose = False
 
 from OCR import extract_clauses_with_order, clean_text, classify_remaining_text, process_ocr_text
 from CLAUSE import extract_legal_terms, legal_explanations, generate_clause_explanation, terms_df
