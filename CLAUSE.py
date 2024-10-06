@@ -41,7 +41,8 @@ api_key = st.secrets['API_KEY']
 def generate_clause_explanation(clause, term_explanations, detection=False, corr_ex=None, judgment=None):
     # Upstage 모델 초기화
     model = 'solar-1-mini-chat'
-    llm = ChatUpstage(model=model, upstage_api_key=api_key) 
+    llm = ChatUpstage(model=model, upstage_api_key=api_key)
+
 
     # LangChain 프롬프트 템플릿 설정
     if not detection:
@@ -69,7 +70,8 @@ def generate_clause_explanation(clause, term_explanations, detection=False, corr
         explanation_prompt = PromptTemplate(template=explanation_template, input_variables=["clause", "term_explanations", "corr_ex", "judgment"])
 
     # LLMChain을 사용하여 프롬프트와 LLM을 연결
-        chain = explanation_prompt|llm
+
+    chain = explanation_prompt|llm
 
     # 조항 설명 생성
     if not detection:
