@@ -69,18 +69,15 @@ if file is not None:
         if item['type'] == '조항':
             clauses.append(item['content'])
 
-
-        
-        # 조항별로 처리 및 출력
+    # 조항별로 처리 및 출력
     for i, clause in enumerate(clauses):
         st.subheader(f"조항 {i+1}:")
-        st.write(clause['content'])
+        st.write(clause)  # clause 자체가 문자열이므로 이대로 출력합니다.
 
         # 조항에서 법률 용어 추출 및 설명 가져오기
-        legal_terms = extract_legal_terms(clause['content'], terms_df)
+        legal_terms = extract_legal_terms(clause, terms_df)
         term_explanations = legal_explanations(legal_terms, terms_df)
-        
+    
         # LangChain을 사용하여 조항 설명 생성
-        explanation = generate_clause_explanation(clause['content'], term_explanations)
+        explanation = generate_clause_explanation(clause, term_explanations)
         st.write("설명:", explanation)
-        
