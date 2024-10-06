@@ -6,6 +6,6 @@ pillow==10.0.0
 requests
 flask==2.2.2
 werkzeug==2.2.3
-langchain-upstage==0.2.0
-langchain-core==0.2.0
+langchain-upstage
+langchain-core
 pydantic==1.*
