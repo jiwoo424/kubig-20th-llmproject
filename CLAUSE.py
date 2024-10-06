@@ -5,6 +5,10 @@ from langchain.prompts import PromptTemplate
 from langchain_upstage import ChatUpstage
 from langchain_core.messages import HumanMessage, SystemMessage
 import pandas as pd
+import streamlit as st
+
+
+
 
 def extract_legal_terms(clause, terms_df):
     terms_in_clause = []
@@ -34,11 +38,14 @@ def legal_explanations(terms, terms_df):
             explanations[term] = explanation[0]
     return explanations
 
+api_key = st.secrets['API_KEY']
+
+
 # 조항 설명 생성
 def generate_clause_explanation(clause, term_explanations, detection=False, corr_ex=None, judgment=None):
     # Upstage 모델 초기화
     model = 'solar-1-mini-chat'
-    llm = ChatUpstage(model=model)
+    llm = ChatUpstage(model=model, upstage_api_key=api_key)
 
     # LangChain 프롬프트 템플릿 설정
     if not detection:
