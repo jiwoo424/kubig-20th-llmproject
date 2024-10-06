@@ -1,13 +1,11 @@
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain.chains import SimpleSequentialChain
+from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 from langchain_upstage import ChatUpstage
 from langchain_core.messages import HumanMessage, SystemMessage
 import pandas as pd
 import streamlit as st
-
-
 
 
 def extract_legal_terms(clause, terms_df):
@@ -40,12 +38,10 @@ def legal_explanations(terms, terms_df):
 
 api_key = st.secrets['API_KEY']
 
-
-# 조항 설명 생성
 def generate_clause_explanation(clause, term_explanations, detection=False, corr_ex=None, judgment=None):
     # Upstage 모델 초기화
     model = 'solar-1-mini-chat'
-    llm = ChatUpstage(model=model, upstage_api_key=api_key)
+    llm = ChatUpstage(model=model, upstage_api_key=api_key) 
 
     # LangChain 프롬프트 템플릿 설정
     if not detection:
@@ -72,13 +68,13 @@ def generate_clause_explanation(clause, term_explanations, detection=False, corr
         """
         explanation_prompt = PromptTemplate(template=explanation_template, input_variables=["clause", "term_explanations", "corr_ex", "judgment"])
 
-    # LangChain 프롬프트와 LLM 결합
-    chain = explanation_prompt | llm
+    # LLMChain을 사용하여 프롬프트와 LLM을 연결
+    chain = LLMChain(prompt=explanation_prompt, llm=llm)
 
     # 조항 설명 생성
     if not detection:
-        simplified_clause = chain.invoke({"clause": clause, "term_explanations": term_explanations}).content
+        simplified_clause = chain.run({"clause": clause, "term_explanations": term_explanations})
     else:
-        simplified_clause = chain.invoke({"clause": clause, "term_explanations": term_explanations, "corr_ex": corr_ex, "judgment": judgment}).content
+        simplified_clause = chain.run({"clause": clause, "term_explanations": term_explanations, "corr_ex": corr_ex, "judgment": judgment})
 
     return simplified_clause
