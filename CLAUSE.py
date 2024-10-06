@@ -5,7 +5,6 @@ from langchain.prompts import PromptTemplate
 from langchain_upstage import ChatUpstage
 from langchain_core.messages import HumanMessage, SystemMessage
 import pandas as pd
-from app import clauses
 
 def extract_legal_terms(clause, terms_df):
     terms_in_clause = []
