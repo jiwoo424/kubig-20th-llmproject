@@ -23,7 +23,7 @@ def legal_explanations(terms, terms_df):
 
 terms_df = pd.read_csv("web_terms.csv")
 preceds_df = pd.read_csv("판례.csv")
-clauses_df = pd.read_csv("조항.csv")
+clauses_df = pd.read_csv("조항.csv")
 
 # 법률 용어 설명
 def legal_explanations(terms, terms_df):
