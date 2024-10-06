@@ -1,11 +1,14 @@
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain.chains import SimpleSequentialChain, LLMChain
+from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 from langchain_upstage import ChatUpstage
 from langchain_core.messages import HumanMessage, SystemMessage
 import pandas as pd
 import streamlit as st
+from langchain.llms.base import LLM
+from typing import Optional
+
 
 
 def extract_legal_terms(clause, terms_df):
@@ -37,6 +40,21 @@ def legal_explanations(terms, terms_df):
     return explanations
 
 api_key = st.secrets['API_KEY']
+
+
+class ChatUpstageLLM(LLM):
+    def __init__(self, model: str, upstage_api_key: str):
+        self.chat_upstage = ChatUpstage(model=model, upstage_api_key=api_key)
+
+    def _call(self, prompt: str, stop: Optional[list[str]] = None) -> str:
+        # ChatUpstage의 generate 또는 비슷한 메서드를 사용하여 응답을 생성
+        response = self.chat_upstage.generate(prompt)
+        return response.content
+
+    @property
+    def _llm_type(self) -> str:
+        return "upstage"
+
 
 def generate_clause_explanation(clause, term_explanations, detection=False, corr_ex=None, judgment=None):
     # Upstage 모델 초기화
@@ -71,7 +89,7 @@ def generate_clause_explanation(clause, term_explanations, detection=False, corr
 
     # LLMChain을 사용하여 프롬프트와 LLM을 연결
 
-    chain = SimpleSequentialChain(prompt=explanation_prompt, llm=llm)
+    chain = LLMChain(prompt=explanation_prompt, llm=llm)
 
     # 조항 설명 생성
     if not detection:
